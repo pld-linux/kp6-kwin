@@ -4,7 +4,7 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeplasmaver	6.0.5
+%define		kdeplasmaver	6.1.0
 %define		kf_ver	5.102.0
 %define		qt_ver		5.15.0
 %define		kpname		kwin
@@ -12,12 +12,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.0.5
+Version:	6.1.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	889a0c874a93a9892c70a6cd9969abb7
+# Source0-md5:	f16abd418d220777d9804e0b25d773c8
 #Patch0: kp5-kwin-absolute-path.patch
 URL:		http://www.kde.org/
 BuildRequires:	EGL-devel
@@ -133,6 +133,7 @@ Requires:	libxcb >= 1.10
 Requires:	xcb-util-wm >= 0.4
 Requires:	xorg-lib-libxkbcommon >= 0.7.0
 Suggests:	hwdata
+Obsoletes:	kp5-%{kpname} < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		qt6dir		%{_libdir}/qt6
@@ -147,6 +148,7 @@ Zarządca okien KDE.
 Summary:	Data files for %{kpname}
 Summary(pl.UTF-8):	Dane dla %{kpname}
 Group:		X11/Applications
+Obsoletes:	kp5-%{kpname}-data < %{version}
 BuildArch:	noarch
 
 %description data
@@ -168,6 +170,7 @@ Requires:	kf6-kwindowsystem-devel >= %{kf_ver}
 Requires:	libepoxy-devel
 Requires:	libstdc++-devel
 Requires:	libxcb-devel
+Obsoletes:	kp5-%{kpname}-devel < %{version}
 
 %description devel
 Header files for %{kpname} development.
@@ -269,12 +272,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/BounceKeysPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/StickyKeysPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/buttonsrebind.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightcolor.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm/kcm_auroraedecoration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2/org.kde.kwin.aurorae.so
 %attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-reset-active-mouse-screen
 %attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-remove-breeze-tabbox-default
+%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.1-remove-gridview-expose-shortcuts
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_hidecursor_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
 
 %files data -f %{kpname}.lang
 %defattr(644,root,root,755)
@@ -293,6 +298,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/knsrcfiles/kwinswitcher.knsrc
 %{_datadir}/knsrcfiles/window-decorations.knsrc
 %{_datadir}/config.kcfg/kwindecorationsettings.kcfg
+%{_datadir}/config.kcfg/nightlightsettings.kcfg
 %{_datadir}/config.kcfg/virtualdesktopssettings.kcfg
 %{_datadir}/dbus-1/interfaces/org.kde.KWin.Plugins.xml
 %dir %{_datadir}/krunner
@@ -311,7 +317,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/kwincompositing.desktop
 %{_desktopdir}/kcm_kwintabbox.desktop
 %{_desktopdir}/kcm_kwinxwayland.desktop
-%{_datadir}/config.kcfg/nightcolorsettings.kcfg
 %{_desktopdir}/org.kde.kwin.killer.desktop
 %{_datadir}/dbus-1/interfaces/org.kde.KWin.VirtualDesktopManager.xml
 #%attr(755,root,root) %{_datadir}/kconf_update/kwin-6.0-overview-activities-shortcuts.py
