@@ -272,6 +272,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/BounceKeysPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/StickyKeysPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/buttonsrebind.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/eis.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm/kcm_auroraedecoration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2/org.kde.kwin.aurorae.so
