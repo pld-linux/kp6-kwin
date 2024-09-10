@@ -4,7 +4,7 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeplasmaver	6.1.4
+%define		kdeplasmaver	6.1.5
 %define		kf_ver	5.102.0
 %define		qt_ver		5.15.0
 %define		kpname		kwin
@@ -12,12 +12,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.1.4
+Version:	6.1.5
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	2d4516080f370a6cf40351266277b010
+# Source0-md5:	147357b72c4c2764d0845e13b8718a70
 #Patch0: kp5-kwin-absolute-path.patch
 URL:		http://www.kde.org/
 BuildRequires:	EGL-devel
@@ -73,6 +73,7 @@ BuildRequires:	libcap
 BuildRequires:	libcap-devel
 BuildRequires:	libdisplay-info-devel
 BuildRequires:	libdrm-devel >= 2.4.62
+BuildRequires:	libeis-devel
 BuildRequires:	libepoxy-devel
 BuildRequires:	libinput-devel >= 1.9
 BuildRequires:	libstdc++-devel
