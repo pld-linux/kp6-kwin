@@ -4,7 +4,7 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeplasmaver	6.1.5
+%define		kdeplasmaver	6.2.0
 %define		kf_ver	5.102.0
 %define		qt_ver		5.15.0
 %define		kpname		kwin
@@ -12,12 +12,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.1.5
+Version:	6.2.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	147357b72c4c2764d0845e13b8718a70
+# Source0-md5:	4da97bace160226f6ac0f775b73b592d
 #Patch0: kp5-kwin-absolute-path.patch
 URL:		http://www.kde.org/
 BuildRequires:	EGL-devel
@@ -81,6 +81,7 @@ BuildRequires:	libxcb-devel >= 1.10
 BuildRequires:	ninja
 BuildRequires:	pipewire-devel >= 0.3
 BuildRequires:	pkgconfig
+BuildRequires:	plasma-wayland-protocols >= 1.14.0
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	udev-devel
 BuildRequires:	wayland-devel >= 1.2
@@ -269,7 +270,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_effect.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_scripts.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_windowswitcher.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_colorblindnesscorrection_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/BounceKeysPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/StickyKeysPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/buttonsrebind.so
@@ -282,6 +282,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.1-remove-gridview-expose-shortcuts
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_hidecursor_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/KeyNotificationPlugin.so
 
 %files data -f %{kpname}.lang
 %defattr(644,root,root,755)
