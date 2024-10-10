@@ -5,8 +5,8 @@
 # Conditional build:
 %bcond_with	tests		# build with tests
 %define		kdeplasmaver	6.2.0
-%define		kf_ver	5.102.0
-%define		qt_ver		5.15.0
+%define		kf_ver		6.5.0
+%define		qt_ver		6.7.0
 %define		kpname		kwin
 #
 Summary:	KDE Window manager
@@ -21,7 +21,7 @@ Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{vers
 #Patch0: kp5-kwin-absolute-path.patch
 URL:		http://www.kde.org/
 BuildRequires:	EGL-devel
-BuildRequires:	Mesa-libgbm-devel
+BuildRequires:	Mesa-libgbm-devel >= 21.3
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt6Core-devel >= %{qt_ver}
 BuildRequires:	Qt6DBus-devel >= %{qt_ver}
@@ -39,16 +39,18 @@ BuildRequires:	docbook-style-xsl
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2
 BuildRequires:	hwdata
-BuildRequires:	kf6-extra-cmake-modules >= 5.38
+BuildRequires:	kf6-extra-cmake-modules >= %{kf_ver}
 BuildRequires:	kf6-kcmutils-devel >= %{kf_ver}
 BuildRequires:	kf6-kcompletion-devel >= %{kf_ver}
 BuildRequires:	kf6-kconfig-devel >= %{kf_ver}
 BuildRequires:	kf6-kconfigwidgets-devel >= %{kf_ver}
 BuildRequires:	kf6-kcoreaddons-devel >= %{kf_ver}
 BuildRequires:	kf6-kcrash-devel >= %{kf_ver}
+BuildRequires:	kf6-kdbusaddons-devel >= %{kf_ver}
 BuildRequires:	kf6-kdeclarative-devel >= %{kf_ver}
 BuildRequires:	kf6-kdoctools-devel >= %{kf_ver}
 BuildRequires:	kf6-kglobalaccel-devel >= %{kf_ver}
+BuildRequires:	kf6-kguiaddons-devel >= %{kf_ver}
 BuildRequires:	kf6-ki18n-devel >= %{kf_ver}
 BuildRequires:	kf6-kiconthemes-devel >= %{kf_ver}
 BuildRequires:	kf6-kidletime-devel >= %{kf_ver}
@@ -59,6 +61,7 @@ BuildRequires:	kf6-knotifications-devel >= %{kf_ver}
 BuildRequires:	kf6-kpackage-devel >= %{kf_ver}
 BuildRequires:	kf6-krunner-devel >= %{kf_ver}
 BuildRequires:	kf6-kservice-devel >= %{kf_ver}
+BuildRequires:	kf6-ksvg-devel >= %{kf_ver}
 BuildRequires:	kf6-ktextwidgets-devel >= %{kf_ver}
 BuildRequires:	kf6-kwidgetsaddons-devel >= %{kf_ver}
 BuildRequires:	kf6-kwindowsystem-devel >= %{kf_ver}
@@ -72,20 +75,21 @@ BuildRequires:	lcms2-devel
 BuildRequires:	libcap
 BuildRequires:	libcap-devel
 BuildRequires:	libdisplay-info-devel
-BuildRequires:	libdrm-devel >= 2.4.62
+BuildRequires:	libdrm-devel >= 2.4.116
 BuildRequires:	libeis-devel
-BuildRequires:	libepoxy-devel
-BuildRequires:	libinput-devel >= 1.9
+BuildRequires:	libepoxy-devel >= 1.3
+BuildRequires:	libinput-devel >= 1.19
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxcb-devel >= 1.10
 BuildRequires:	ninja
-BuildRequires:	pipewire-devel >= 0.3
+BuildRequires:	pipewire-devel >= 0.3.65
 BuildRequires:	pkgconfig
 BuildRequires:	plasma-wayland-protocols >= 1.14.0
-BuildRequires:	rpmbuild(macros) >= 1.164
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	udev-devel
-BuildRequires:	wayland-devel >= 1.2
+BuildRequires:	wayland-devel >= 1.23
 BuildRequires:	wayland-egl-devel
+BuildRequires:	wayland-protocols >= 1.36
 BuildRequires:	xcb-util-cursor-devel
 BuildRequires:	xcb-util-image-devel
 BuildRequires:	xcb-util-keysyms-devel
@@ -138,8 +142,6 @@ Suggests:	hwdata
 Obsoletes:	kp5-%{kpname} < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		qt6dir		%{_libdir}/qt6
-
 %description
 KDE Window manager.
 
@@ -184,14 +186,15 @@ Pliki nagłówkowe dla programistów używających %{kpname}.
 %setup -q -n %{kpname}-%{version}
 #%%patch0 -p1
 
-%build
-rm -rf po/id
+%{__rm} -r po/id
 
+%build
 %cmake -B build \
 	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	-DKDE_INSTALL_DOCBUNDLEDIR=%{_kdedocdir}
+
 %ninja_build -C build
 
 %if %{with tests}
@@ -200,19 +203,21 @@ ctest
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %ninja_install -C build
-rm -rf $RPM_BUILD_ROOT%{_kdedocdir}/{sr,sr@latin}
+
+%{__rm} -r $RPM_BUILD_ROOT%{_kdedocdir}/{sr,sr@latin}
 
 %find_lang %{kpname} --all-name --with-kde
 
 find $RPM_BUILD_ROOT%{_datadir}/kconf_update -type f -name "*.py" \
--exec sed -i -e 's#/usr/bin/env python3#/usr/bin/python3#' '{}' +
+	-exec sed -i -e 's#/usr/bin/env python3#/usr/bin/python3#' '{}' +
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
