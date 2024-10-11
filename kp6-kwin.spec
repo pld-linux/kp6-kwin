@@ -1,9 +1,9 @@
 # TODO:
 # - libhybris
 #
-#
 # Conditional build:
-%bcond_with	tests		# build with tests
+%bcond_with	tests		# test suite
+
 %define		kdeplasmaver	6.2.0
 %define		kf_ver		6.5.0
 %define		qt_ver		6.7.0
@@ -18,8 +18,7 @@ License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
 # Source0-md5:	4da97bace160226f6ac0f775b73b592d
-#Patch0: kp5-kwin-absolute-path.patch
-URL:		http://www.kde.org/
+URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
 BuildRequires:	OpenGL-devel
@@ -28,7 +27,6 @@ BuildRequires:	Qt6DBus-devel >= %{qt_ver}
 BuildRequires:	Qt6Gui-devel >= %{qt_ver}
 BuildRequires:	Qt6Multimedia-devel >= %{qt_ver}
 BuildRequires:	Qt6Network-devel >= %{qt_ver}
-#BuildRequires:	Qt6PlatformSupport-devel >= %{qt_ver}
 BuildRequires:	Qt6Qml-devel >= %{qt_ver}
 BuildRequires:	Qt6Quick-devel >= %{qt_ver}
 BuildRequires:	Qt6Sensors-devel >= %{qt_ver}
@@ -132,14 +130,13 @@ Requires:	kp6-kdecoration >= 5.18.0
 Requires:	kp6-kscreenlocker
 Requires:	kp6-kwayland >= 5.93.0
 Requires:	kp6-plasma-activities >= 5.93.0
-Requires:	libcap
 Requires:	libdrm >= 2.4.62
 Requires:	libinput >= 1.9
 Requires:	libxcb >= 1.10
 Requires:	xcb-util-wm >= 0.4
 Requires:	xorg-lib-libxkbcommon >= 0.7.0
 Suggests:	hwdata
-Obsoletes:	kp5-%{kpname} < %{version}
+Obsoletes:	kp5-kwin < 6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -174,7 +171,7 @@ Requires:	kf6-kwindowsystem-devel >= %{kf_ver}
 Requires:	libepoxy-devel
 Requires:	libstdc++-devel
 Requires:	libxcb-devel
-Obsoletes:	kp5-%{kpname}-devel < %{version}
+Obsoletes:	kp5-kwin-devel < 6
 
 %description devel
 Header files for %{kpname} development.
@@ -184,7 +181,6 @@ Pliki nagłówkowe dla programistów używających %{kpname}.
 
 %prep
 %setup -q -n %{kpname}-%{version}
-#%%patch0 -p1
 
 %{__rm} -r po/id
 
@@ -222,119 +218,137 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kwin_wayland
+%attr(755,root,root) %{_bindir}/kwin_wayland_wrapper
 %attr(755,root,root) %{_bindir}/kwin_x11
-%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin5_update_default_rules
-%ghost %{_libdir}/libkwin.so.6
+%attr(755,root,root) %{_libexecdir}/kwin-applywindowdecoration
+%attr(755,root,root) %{_libexecdir}/kwin_killer_helper
+%attr(755,root,root) %{_libdir}/libkcmkwincommon.so.*.*
+%ghost %{_libdir}/libkcmkwincommon.so.6
 %attr(755,root,root) %{_libdir}/libkwin.so.*.*.*
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_tileseditor_config.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwinxwayland.so
+%ghost %{_libdir}/libkwin.so.6
+%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin5_update_default_rules
+%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-delete-desktop-switching-shortcuts
+%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-remove-breeze-tabbox-default
+%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-reset-active-mouse-screen
+%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.1-remove-gridview-expose-shortcuts
+%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_aurorae.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_decoration.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_effect.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_scripts.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_windowswitcher.so
 %dir %{_libdir}/qt6/plugins/kwin
 %dir %{_libdir}/qt6/plugins/kwin/effects
 %dir %{_libdir}/qt6/plugins/kwin/effects/configs
-%dir %{_libdir}/qt6/plugins/kwin/plugins
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kcm_kwin4_genericscripted.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_blur_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_diminactive_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_glide_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_hidecursor_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_invert_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_magiclamp_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_magnifier_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_mouseclick_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_mousemark_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_overview_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_showpaint_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_slide_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_thumbnailaside_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_tileseditor_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_trackmouse_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_windowview_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_wobblywindows_config.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_zoom_config.so
-%{_libdir}/qt6/qml/org/kde/kwin
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_slide_config.so
-%attr(755,root,root) %{_prefix}/libexec/kwin_killer_helper
-%ghost %{_libdir}/libkcmkwincommon.so.6
-%attr(755,root,root) %{_libdir}/libkcmkwincommon.so.*.*
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_showpaint_config.so
-%attr(755,root,root) %{_bindir}/kwin_wayland_wrapper
-%{systemduserunitdir}/plasma-kwin_x11.service
+%dir %{_libdir}/qt6/plugins/kwin/plugins
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/KeyNotificationPlugin.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/BounceKeysPlugin.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/StickyKeysPlugin.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/buttonsrebind.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/eis.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/krunnerintegration.so
-%attr(755,root,root) %{_prefix}/libexec/kwin-applywindowdecoration
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_overview_config.so
-%{systemduserunitdir}/plasma-kwin_wayland.service
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_windowview_config.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2/org.kde.kwin.aurorae.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm/kcm_auroraedecoration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_effects.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_scripts.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_virtualdesktops.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwindecoration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwinrules.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwinxwayland.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_virtualkeyboard.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwinoptions.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwinscreenedges.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwintabbox.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwintouchscreen.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kwincompositing.so
-%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-delete-desktop-switching-shortcuts
-%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_aurorae.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_decoration.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_effect.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_scripts.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/packagestructure/kwin_windowswitcher.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/BounceKeysPlugin.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/StickyKeysPlugin.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/buttonsrebind.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/eis.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm/kcm_auroraedecoration.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2/org.kde.kwin.aurorae.so
-%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-reset-active-mouse-screen
-%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-remove-breeze-tabbox-default
-%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.1-remove-gridview-expose-shortcuts
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/effects/configs/kwin_hidecursor_config.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/KeyNotificationPlugin.so
+%dir %{_libdir}/qt6/qml/org/kde/kwin
+%dir %{_libdir}/qt6/qml/org/kde/kwin/descoration
+%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/descoration/libdecorationplugin.so
+%{_libdir}/qt6/qml/org/kde/kwin/descoration/*.qml
+%{_libdir}/qt6/qml/org/kde/kwin/descoration/qmldir
+%dir %{_libdir}/qt6/qml/org/kde/kwin/descorations
+%dir %{_libdir}/qt6/qml/org/kde/kwin/descorations/plastik
+%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/descorations/plastik/libplastikplugin.so
+%{_libdir}/qt6/qml/org/kde/kwin/descorations/plastik/qmldir
+%dir %{_libdir}/qt6/qml/org/kde/kwin/private
+%dir %{_libdir}/qt6/qml/org/kde/kwin/private/effects
+%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/private/effects/libeffectsplugin.so
+%{_libdir}/qt6/qml/org/kde/kwin/private/effects/*.qml
+%{_libdir}/qt6/qml/org/kde/kwin/private/effects/effectsplugin.qmltypes
+%{_libdir}/qt6/qml/org/kde/kwin/private/effects/kde-qmlmodule.version
+%{_libdir}/qt6/qml/org/kde/kwin/private/effects/qmldir
+%dir %{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration
+%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/libkdecorationprivatedeclarative.so
+%{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/kde-qmlmodule.version
+%{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/kdecorationprivatedeclarative.qmltypes
+%{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/qmldir
+%{systemduserunitdir}/plasma-kwin_wayland.service
+%{systemduserunitdir}/plasma-kwin_x11.service
 
 %files data -f %{kpname}.lang
 %defattr(644,root,root,755)
 %{_datadir}/config.kcfg/kwin.kcfg
+%{_datadir}/config.kcfg/kwindecorationsettings.kcfg
+%{_datadir}/config.kcfg/nightlightsettings.kcfg
+%{_datadir}/config.kcfg/virtualdesktopssettings.kcfg
 %{_datadir}/dbus-1/interfaces/org.kde.KWin.xml
+%{_datadir}/dbus-1/interfaces/org.kde.KWin.NightLight.xml
+%{_datadir}/dbus-1/interfaces/org.kde.KWin.Plugins.xml
+%{_datadir}/dbus-1/interfaces/org.kde.KWin.TabletModeManager.xml
+%{_datadir}/dbus-1/interfaces/org.kde.KWin.VirtualDesktopManager.xml
 %{_datadir}/dbus-1/interfaces/org.kde.kwin.Compositing.xml
 %{_datadir}/dbus-1/interfaces/org.kde.kwin.Effects.xml
-%{_iconsdir}/hicolor/*/apps/kwin.png
-%{_iconsdir}/hicolor/scalable/apps/kwin.svgz
-%{_datadir}/kwin
-#%{_datadir}/dbus-1/interfaces/org.kde.kwin.ColorCorrect.xml
+%{_datadir}/dbus-1/interfaces/org.kde.kwin.InputDevice.xml
+%{_datadir}/dbus-1/interfaces/org.kde.kwin.VirtualKeyboard.xml
 %{_datadir}/kconf_update/kwin.upd
+%{_datadir}/knotifications6/kwin.notifyrc
 %{_datadir}/knsrcfiles/aurorae.knsrc
 %{_datadir}/knsrcfiles/kwineffect.knsrc
 %{_datadir}/knsrcfiles/kwinscripts.knsrc
 %{_datadir}/knsrcfiles/kwinswitcher.knsrc
 %{_datadir}/knsrcfiles/window-decorations.knsrc
-%{_datadir}/config.kcfg/kwindecorationsettings.kcfg
-%{_datadir}/config.kcfg/nightlightsettings.kcfg
-%{_datadir}/config.kcfg/virtualdesktopssettings.kcfg
-%{_datadir}/dbus-1/interfaces/org.kde.KWin.Plugins.xml
 %dir %{_datadir}/krunner
 %dir %{_datadir}/krunner/dbusplugins
 %{_datadir}/krunner/dbusplugins/kwin-runner-windows.desktop
-%{_datadir}/dbus-1/interfaces/org.kde.kwin.VirtualKeyboard.xml
-%{_datadir}/dbus-1/interfaces/org.kde.KWin.TabletModeManager.xml
-%{_datadir}/dbus-1/interfaces/org.kde.kwin.InputDevice.xml
+%{_datadir}/kwin
+%{_datadir}/qlogging-categories6/org_kde_kwin.categories
 %{_desktopdir}/kcm_kwin_effects.desktop
 %{_desktopdir}/kcm_kwin_scripts.desktop
 %{_desktopdir}/kcm_kwin_virtualdesktops.desktop
 %{_desktopdir}/kcm_kwindecoration.desktop
 %{_desktopdir}/kcm_kwinoptions.desktop
 %{_desktopdir}/kcm_kwinrules.desktop
-%{_desktopdir}/kcm_virtualkeyboard.desktop
-%{_desktopdir}/kwincompositing.desktop
 %{_desktopdir}/kcm_kwintabbox.desktop
 %{_desktopdir}/kcm_kwinxwayland.desktop
+%{_desktopdir}/kcm_virtualkeyboard.desktop
+%{_desktopdir}/kwincompositing.desktop
 %{_desktopdir}/org.kde.kwin.killer.desktop
-%{_datadir}/dbus-1/interfaces/org.kde.KWin.VirtualDesktopManager.xml
-#%attr(755,root,root) %{_datadir}/kconf_update/kwin-6.0-overview-activities-shortcuts.py
-%{_datadir}/knotifications6/kwin.notifyrc
-%{_datadir}/qlogging-categories6/org_kde_kwin.categories
-%{_datadir}/dbus-1/interfaces/org.kde.KWin.NightLight.xml
+%{_iconsdir}/hicolor/*/apps/kwin.png
+%{_iconsdir}/hicolor/scalable/apps/kwin.svgz
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/kwin
-%{_libdir}/cmake/KWinDBusInterface
-%{_libdir}/cmake/KWin
 %{_libdir}/libkwin.so
+%{_includedir}/kwin
+%{_libdir}/cmake/KWin
+%{_libdir}/cmake/KWinDBusInterface
