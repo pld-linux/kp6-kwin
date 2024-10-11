@@ -6,6 +6,7 @@
 
 %define		kdeplasmaver	6.2.0
 %define		kf_ver		6.5.0
+%define		kp_ver		6.2.0
 %define		qt_ver		6.7.0
 %define		kpname		kwin
 #
@@ -22,15 +23,21 @@ URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
 BuildRequires:	OpenGL-devel
+BuildRequires:	Qt6Concurrent-devel >= %{qt_ver}
 BuildRequires:	Qt6Core-devel >= %{qt_ver}
 BuildRequires:	Qt6DBus-devel >= %{qt_ver}
 BuildRequires:	Qt6Gui-devel >= %{qt_ver}
 BuildRequires:	Qt6Multimedia-devel >= %{qt_ver}
-BuildRequires:	Qt6Network-devel >= %{qt_ver}
 BuildRequires:	Qt6Qml-devel >= %{qt_ver}
+BuildRequires:	Qt6Qt5Compat-devel >= %{qt_ver}
 BuildRequires:	Qt6Quick-devel >= %{qt_ver}
 BuildRequires:	Qt6Sensors-devel >= %{qt_ver}
+BuildRequires:	Qt6Svg-devel >= %{qt_ver}
+%if %{with tests}
+BuildRequires:	Qt6Test-devel >= %{qt_ver}
+%endif
 BuildRequires:	Qt6UiTools-devel >= %{qt_ver}
+BuildRequires:	Qt6WaylandClient-devel >= %{qt_ver}
 BuildRequires:	Qt6Widgets-devel >= %{qt_ver}
 BuildRequires:	cmake >= 3.16.0
 BuildRequires:	docbook-style-xsl
@@ -38,8 +45,9 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2
 BuildRequires:	hwdata
 BuildRequires:	kf6-extra-cmake-modules >= %{kf_ver}
+BuildRequires:	kf6-kauth-devel >= %{kf_ver}
 BuildRequires:	kf6-kcmutils-devel >= %{kf_ver}
-BuildRequires:	kf6-kcompletion-devel >= %{kf_ver}
+BuildRequires:	kf6-kcolorscheme-devel >= %{kf_ver}
 BuildRequires:	kf6-kconfig-devel >= %{kf_ver}
 BuildRequires:	kf6-kconfigwidgets-devel >= %{kf_ver}
 BuildRequires:	kf6-kcoreaddons-devel >= %{kf_ver}
@@ -50,7 +58,6 @@ BuildRequires:	kf6-kdoctools-devel >= %{kf_ver}
 BuildRequires:	kf6-kglobalaccel-devel >= %{kf_ver}
 BuildRequires:	kf6-kguiaddons-devel >= %{kf_ver}
 BuildRequires:	kf6-ki18n-devel >= %{kf_ver}
-BuildRequires:	kf6-kiconthemes-devel >= %{kf_ver}
 BuildRequires:	kf6-kidletime-devel >= %{kf_ver}
 BuildRequires:	kf6-kio-devel >= %{kf_ver}
 BuildRequires:	kf6-kirigami-devel >= %{kf_ver}
@@ -65,10 +72,15 @@ BuildRequires:	kf6-kwidgetsaddons-devel >= %{kf_ver}
 BuildRequires:	kf6-kwindowsystem-devel >= %{kf_ver}
 BuildRequires:	kf6-kxmlgui-devel >= %{kf_ver}
 BuildRequires:	kp6-breeze-devel >= 5.23.0
-BuildRequires:	kp6-kdecoration-devel >= 5.23.0
+BuildRequires:	kp6-kdecoration-devel >= %{kp_ver}
 BuildRequires:	kp6-kglobalacceld-devel
+%if %{with tests}
+BuildRequires:	kp6-kpipewire-devel
+%endif
 BuildRequires:	kp6-kscreenlocker-devel
-BuildRequires:	kp6-kwayland-devel >= 5.93.0
+BuildRequires:	kp6-kwayland-devel >= %{kp_ver}
+BuildRequires:	kp6-libplasma-devel >= %{kp_ver}
+BuildRequires:	kp6-plasma-activities-devel >= %{kp_ver}
 BuildRequires:	lcms2-devel
 BuildRequires:	libcap
 BuildRequires:	libcap-devel
@@ -84,6 +96,7 @@ BuildRequires:	pipewire-devel >= 0.3.65
 BuildRequires:	pkgconfig
 BuildRequires:	plasma-wayland-protocols >= 1.14.0
 BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	systemd-devel
 BuildRequires:	udev-devel
 BuildRequires:	wayland-devel >= 1.23
 BuildRequires:	wayland-egl-devel
@@ -100,12 +113,16 @@ BuildRequires:	xorg-lib-libxkbcommon-x11-devel >= 0.7.0
 BuildRequires:	xorg-xserver-Xwayland-devel
 BuildRequires:	xz
 Requires:	%{name}-data = %{version}-%{release}
+Requires:	Qt6Concurrent >= %{qt_ver}
 Requires:	Qt6Core >= %{qt_ver}
 Requires:	Qt6DBus >= %{qt_ver}
 Requires:	Qt6Gui >= %{qt_ver}
-Requires:	Qt6Network >= %{qt_ver}
 Requires:	Qt6Qml >= %{qt_ver}
+Requires:	Qt6Qt5Compat >= %{qt_ver}
 Requires:	Qt6Quick >= %{qt_ver}
+Requires:	Qt6Sensors >= %{qt_ver}
+Requires:	Qt6Svg >= %{qt_ver}
+Requires:	Qt6WaylandClient >= %{qt_ver}
 Requires:	Qt6Widgets >= %{qt_ver}
 Requires:	kf6-kcmutils >= %{kf_ver}
 Requires:	kf6-kcompletion >= %{kf_ver}
@@ -126,14 +143,18 @@ Requires:	kf6-ktextwidgets >= %{kf_ver}
 Requires:	kf6-kwidgetsaddons >= %{kf_ver}
 Requires:	kf6-kwindowsystem >= %{kf_ver}
 Requires:	kf6-kxmlgui >= %{kf_ver}
-Requires:	kp6-kdecoration >= 5.18.0
+Requires:	kp6-kdecoration >= %{kp_ver}
 Requires:	kp6-kscreenlocker
-Requires:	kp6-kwayland >= 5.93.0
-Requires:	kp6-plasma-activities >= 5.93.0
-Requires:	libdrm >= 2.4.62
-Requires:	libinput >= 1.9
+Requires:	kp6-kwayland >= %{kp_ver}
+Requires:	kp6-plasma-activities >= %{kp_ver}
+Requires:	libdrm >= 2.4.116
+Requires:	libepoxy >= 1.3
+Requires:	libinput >= 1.19
 Requires:	libxcb >= 1.10
+Requires:	pipewire-libs >= 0.3.65
+Requires:	wayland >= 1.23
 Requires:	xcb-util-wm >= 0.4
+Requires:	xorg-lib-libxcvt >= 0.1.1
 Requires:	xorg-lib-libxkbcommon >= 0.7.0
 Suggests:	hwdata
 Obsoletes:	kp5-kwin < 6
@@ -217,6 +238,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+# TODO: CAP_SYS_NICE=+ep
 %attr(755,root,root) %{_bindir}/kwin_wayland
 %attr(755,root,root) %{_bindir}/kwin_wayland_wrapper
 %attr(755,root,root) %{_bindir}/kwin_x11
@@ -343,7 +365,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/kcm_virtualkeyboard.desktop
 %{_desktopdir}/kwincompositing.desktop
 %{_desktopdir}/org.kde.kwin.killer.desktop
-%{_iconsdir}/hicolor/*/apps/kwin.png
+%{_iconsdir}/hicolor/*x*/apps/kwin.png
 %{_iconsdir}/hicolor/scalable/apps/kwin.svgz
 
 %files devel
