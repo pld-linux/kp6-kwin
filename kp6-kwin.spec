@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.2.0
+%define		kdeplasmaver	6.2.1
 %define		kf_ver		6.5.0
 %define		kp_ver		6.2.0
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.2.0
+Version:	6.2.1
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	4da97bace160226f6ac0f775b73b592d
+# Source0-md5:	5f109b9da0b98a62d5900d8cdf44ff43
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -304,14 +304,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwintouchscreen.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kwincompositing.so
 %dir %{_libdir}/qt6/qml/org/kde/kwin
-%dir %{_libdir}/qt6/qml/org/kde/kwin/descoration
-%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/descoration/libdecorationplugin.so
-%{_libdir}/qt6/qml/org/kde/kwin/descoration/*.qml
-%{_libdir}/qt6/qml/org/kde/kwin/descoration/qmldir
-%dir %{_libdir}/qt6/qml/org/kde/kwin/descorations
-%dir %{_libdir}/qt6/qml/org/kde/kwin/descorations/plastik
-%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/descorations/plastik/libplastikplugin.so
-%{_libdir}/qt6/qml/org/kde/kwin/descorations/plastik/qmldir
 %dir %{_libdir}/qt6/qml/org/kde/kwin/private
 %dir %{_libdir}/qt6/qml/org/kde/kwin/private/effects
 %attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/private/effects/libeffectsplugin.so
@@ -326,6 +318,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/qmldir
 %{systemduserunitdir}/plasma-kwin_wayland.service
 %{systemduserunitdir}/plasma-kwin_x11.service
+%dir %{_libdir}/qt6/qml/org/kde/kwin/decoration
+%{_libdir}/qt6/qml/org/kde/kwin/decoration/AppMenuButton.qml
+%{_libdir}/qt6/qml/org/kde/kwin/decoration/ButtonGroup.qml
+%{_libdir}/qt6/qml/org/kde/kwin/decoration/Decoration.qml
+%{_libdir}/qt6/qml/org/kde/kwin/decoration/DecorationButton.qml
+%{_libdir}/qt6/qml/org/kde/kwin/decoration/MenuButton.qml
+%{_libdir}/qt6/qml/org/kde/kwin/decoration/libdecorationplugin.so
+%{_libdir}/qt6/qml/org/kde/kwin/decoration/qmldir
+%dir %{_libdir}/qt6/qml/org/kde/kwin/decorations
+%dir %{_libdir}/qt6/qml/org/kde/kwin/decorations/plastik
+%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/decorations/plastik/libplastikplugin.so
+%{_libdir}/qt6/qml/org/kde/kwin/decorations/plastik/qmldir
 
 %files data -f %{kpname}.lang
 %defattr(644,root,root,755)
