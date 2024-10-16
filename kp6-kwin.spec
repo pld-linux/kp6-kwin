@@ -14,7 +14,7 @@ Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
 Version:	6.2.1
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
@@ -290,6 +290,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2/org.kde.kwin.aurorae.so
+%dir %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm
 %attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm/kcm_auroraedecoration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_effects.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_scripts.so
