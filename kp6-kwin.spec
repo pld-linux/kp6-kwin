@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.2.5
+%define		kdeplasmaver	6.3.0
 %define		kf_ver		6.5.0
 %define		kp_ver		6.2.0
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.2.5
+Version:	6.3.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	59196abb8a6b80ff3af6e4ae4c05fd74
+# Source0-md5:	5575a03626abce9e96dcfdc191690050
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -84,7 +84,7 @@ BuildRequires:	kp6-plasma-activities-devel >= %{kp_ver}
 BuildRequires:	lcms2-devel
 BuildRequires:	libcap
 BuildRequires:	libcap-devel
-BuildRequires:	libdisplay-info-devel
+BuildRequires:	libdisplay-info-devel >= 0.2.0
 BuildRequires:	libdrm-devel >= 2.4.116
 BuildRequires:	libeis-devel
 BuildRequires:	libepoxy-devel >= 1.3
@@ -289,9 +289,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/krunnerintegration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2/org.kde.kwin.aurorae.so
-%dir %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm
-%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration2.kcm/kcm_auroraedecoration.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration3/org.kde.kwin.aurorae.so
+%dir %{_libdir}/qt6/plugins/org.kde.kdecoration3.kcm
+%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration3.kcm/kcm_auroraedecoration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_effects.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_scripts.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_virtualdesktops.so
