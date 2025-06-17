@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.3.5
+%define		kdeplasmaver	6.4.0
 %define		kf_ver		6.5.0
 %define		kp_ver		6.3.2
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.3.5
+Version:	6.4.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	73122335c54bfbd774af2e6f0e61d24f
+# Source0-md5:	0db15ae0d3b8236b5708b11d1e9adca4
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -249,7 +249,6 @@ rm -rf $RPM_BUILD_ROOT
 # TODO: CAP_SYS_NICE=+ep
 %attr(755,root,root) %{_bindir}/kwin_wayland
 %attr(755,root,root) %{_bindir}/kwin_wayland_wrapper
-%attr(755,root,root) %{_bindir}/kwin_x11
 %attr(755,root,root) %{_libexecdir}/kwin-applywindowdecoration
 %attr(755,root,root) %{_libexecdir}/kwin_killer_helper
 %attr(755,root,root) %{_libdir}/libkcmkwincommon.so.*.*
@@ -291,15 +290,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/qt6/plugins/kwin/plugins
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/KeyNotificationPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/BounceKeysPlugin.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/MouseKeysPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/StickyKeysPlugin.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/TouchpadShortcutsPlugin.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/buttonsrebind.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/eis.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/krunnerintegration.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration3/org.kde.kwin.aurorae.so
-%dir %{_libdir}/qt6/plugins/org.kde.kdecoration3.kcm
-%attr(755,root,root) %{_libdir}/qt6/plugins/org.kde.kdecoration3.kcm/kcm_auroraedecoration.so
+%attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_animations.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_effects.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_scripts.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_virtualdesktops.so
@@ -311,7 +310,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwinscreenedges.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwintabbox.so
 %attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwintouchscreen.so
-%attr(755,root,root) %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kwincompositing.so
 %dir %{_libdir}/qt6/qml/org/kde/kwin
 %dir %{_libdir}/qt6/qml/org/kde/kwin/private
 %dir %{_libdir}/qt6/qml/org/kde/kwin/private/effects
@@ -325,20 +323,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/kde-qmlmodule.version
 %{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/kdecorationprivatedeclarative.qmltypes
 %{_libdir}/qt6/qml/org/kde/kwin/private/kdecoration/qmldir
+%attr(755,root,root) %{_prefix}/libexec/kwin-tabbox-preview
 %{systemduserunitdir}/plasma-kwin_wayland.service
-%{systemduserunitdir}/plasma-kwin_x11.service
-%dir %{_libdir}/qt6/qml/org/kde/kwin/decoration
-%{_libdir}/qt6/qml/org/kde/kwin/decoration/AppMenuButton.qml
-%{_libdir}/qt6/qml/org/kde/kwin/decoration/ButtonGroup.qml
-%{_libdir}/qt6/qml/org/kde/kwin/decoration/Decoration.qml
-%{_libdir}/qt6/qml/org/kde/kwin/decoration/DecorationButton.qml
-%{_libdir}/qt6/qml/org/kde/kwin/decoration/MenuButton.qml
-%{_libdir}/qt6/qml/org/kde/kwin/decoration/libdecorationplugin.so
-%{_libdir}/qt6/qml/org/kde/kwin/decoration/qmldir
-%dir %{_libdir}/qt6/qml/org/kde/kwin/decorations
-%dir %{_libdir}/qt6/qml/org/kde/kwin/decorations/plastik
-%attr(755,root,root) %{_libdir}/qt6/qml/org/kde/kwin/decorations/plastik/libplastikplugin.so
-%{_libdir}/qt6/qml/org/kde/kwin/decorations/plastik/qmldir
 
 %files data -f %{kpname}.lang
 %defattr(644,root,root,755)
@@ -357,7 +343,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.kwin.VirtualKeyboard.xml
 %{_datadir}/kconf_update/kwin.upd
 %{_datadir}/knotifications6/kwin.notifyrc
-%{_datadir}/knsrcfiles/aurorae.knsrc
 %{_datadir}/knsrcfiles/kwineffect.knsrc
 %{_datadir}/knsrcfiles/kwinscripts.knsrc
 %{_datadir}/knsrcfiles/kwinswitcher.knsrc
@@ -365,8 +350,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/krunner
 %dir %{_datadir}/krunner/dbusplugins
 %{_datadir}/krunner/dbusplugins/kwin-runner-windows.desktop
-%{_datadir}/kwin
 %{_datadir}/qlogging-categories6/org_kde_kwin.categories
+%{_desktopdir}/kcm_animations.desktop
 %{_desktopdir}/kcm_kwin_effects.desktop
 %{_desktopdir}/kcm_kwin_scripts.desktop
 %{_desktopdir}/kcm_kwin_virtualdesktops.desktop
@@ -376,10 +361,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/kcm_kwintabbox.desktop
 %{_desktopdir}/kcm_kwinxwayland.desktop
 %{_desktopdir}/kcm_virtualkeyboard.desktop
-%{_desktopdir}/kwincompositing.desktop
 %{_desktopdir}/org.kde.kwin.killer.desktop
 %{_iconsdir}/hicolor/*x*/apps/kwin.png
 %{_iconsdir}/hicolor/scalable/apps/kwin.svgz
+%{_datadir}/kwin-wayland
 
 %files devel
 %defattr(644,root,root,755)
