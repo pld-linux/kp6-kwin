@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.4.4
+%define		kdeplasmaver	6.4.5
 %define		kf_ver		6.5.0
 %define		kp_ver		6.3.2
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.4.4
-Release:	2
+Version:	6.4.5
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	38bd47faac424693d15e6cbec7bb4f8c
+# Source0-md5:	33c79a7b05f950845736204acec91fbf
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -114,7 +114,6 @@ BuildRequires:	xorg-xserver-Xwayland-devel
 BuildRequires:	xz
 Requires:	%{name}-data = %{version}-%{release}
 Requires:	Qt6Concurrent >= %{qt_ver}
-Requires:	Qt6Core >= %{qt_ver}
 Requires:	Qt6DBus >= %{qt_ver}
 Requires:	Qt6Gui >= %{qt_ver}
 Requires:	Qt6Qml >= %{qt_ver}
@@ -156,6 +155,7 @@ Requires:	wayland >= 1.23
 Requires:	xcb-util-wm >= 0.4
 Requires:	xorg-lib-libxcvt >= 0.1.1
 Requires:	xorg-lib-libxkbcommon >= 0.7.0
+%requires_eq_to Qt6Core Qt6Core-devel
 Suggests:	hwdata
 Obsoletes:	kp5-kwin < 6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
