@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.5.5
+%define		kdeplasmaver	6.6.0
 %define		kf_ver		6.5.0
 %define		kp_ver		6.3.2
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.5.5
-Release:	2
+Version:	6.6.0
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	3b5d3454404902876c614979efcc0fc2
+# Source0-md5:	2db1eaa86a0f119ead99076a44212f34
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -95,7 +95,7 @@ BuildRequires:	libxcb-devel >= 1.10
 BuildRequires:	ninja
 BuildRequires:	pipewire-devel >= 0.3.65
 BuildRequires:	pkgconfig
-BuildRequires:	plasma-wayland-protocols >= 1.14.0
+BuildRequires:	plasma-wayland-protocols >= 1.20.0
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	systemd-devel
 BuildRequires:	udev-devel
@@ -289,10 +289,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/qt6/plugins/kwin/plugins/KeyNotificationPlugin.so
 %{_libdir}/qt6/plugins/kwin/plugins/BounceKeysPlugin.so
 %{_libdir}/qt6/plugins/kwin/plugins/MouseKeysPlugin.so
+%{_libdir}/qt6/plugins/kwin/plugins/SlowKeysPlugin.so
 %{_libdir}/qt6/plugins/kwin/plugins/StickyKeysPlugin.so
 %{_libdir}/qt6/plugins/kwin/plugins/TouchpadShortcutsPlugin.so
 %{_libdir}/qt6/plugins/kwin/plugins/buttonsrebind.so
 %{_libdir}/qt6/plugins/kwin/plugins/eis.so
+%{_libdir}/qt6/plugins/kwin/plugins/gamecontroller.so
 %{_libdir}/qt6/plugins/kwin/plugins/krunnerintegration.so
 %{_libdir}/qt6/plugins/kwin/plugins/nightlight.so
 %{_libdir}/qt6/plugins/kwin/plugins/screencast.so
