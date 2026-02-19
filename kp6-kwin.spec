@@ -14,11 +14,12 @@ Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
 Version:	6.6.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
 # Source0-md5:	2db1eaa86a0f119ead99076a44212f34
+Patch0:		input_event.patch
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -204,6 +205,7 @@ Pliki nagłówkowe dla programistów używających %{kpname}.
 
 %prep
 %setup -q -n %{kpname}-%{version}
+%patch -P0 -p1
 
 %{__rm} -r po/id
 
