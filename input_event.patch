@@ -1,0 +1,66 @@
+diff -up kwin-6.6.0.orig/src/plugins/gamecontroller/emulatedinputdevice.cpp kwin-6.6.0/src/plugins/gamecontroller/emulatedinputdevice.cpp
+--- kwin-6.6.0.orig/src/plugins/gamecontroller/emulatedinputdevice.cpp	2026-02-12 11:04:41.000000000 +0100
++++ kwin-6.6.0/src/plugins/gamecontroller/emulatedinputdevice.cpp	2026-02-19 09:54:21.152555800 +0100
+@@ -17,6 +17,15 @@
+ 
+ namespace KWin
+ {
++// The field to look up in struct input_event for integer seconds
++#ifndef input_event_sec
++#define input_event_sec time.tv_sec
++#endif
++
++// The field to look up in struct input_event for fractional seconds
++#ifndef input_event_usec
++#define input_event_usec time.tv_usec
++#endif
+ 
+ // Tells us that we are already in a binding event
+ class RebindScope
+@@ -74,7 +83,7 @@ void EmulatedInputDevice::emulateInputDe
+ void EmulatedInputDevice::evkeyMapping(input_event *ev)
+ {
+     KeyboardKeyState state = ev->value ? KWin::KeyboardKeyState::Pressed : KWin::KeyboardKeyState::Released;
+-    const std::chrono::microseconds time = std::chrono::seconds(ev->time.tv_sec) + std::chrono::microseconds(ev->time.tv_usec);
++    const std::chrono::microseconds time = std::chrono::seconds(ev->input_event_sec) + std::chrono::microseconds(ev->input_event_usec);
+ 
+     switch (ev->code) {
+     case BTN_SOUTH: // A button → Enter
+@@ -116,7 +125,7 @@ void EmulatedInputDevice::evabsMapping(i
+     const int maximumValue = libevdev_get_abs_maximum(m_device, ev->code);
+     const PointerButtonState pointerState = maximumValue > 0 && ev->value >= maximumValue * 0.9 ? KWin::PointerButtonState::Pressed : KWin::PointerButtonState::Released;
+     KeyboardKeyState keyState = ev->value ? KWin::KeyboardKeyState::Pressed : KWin::KeyboardKeyState::Released;
+-    const std::chrono::microseconds time = std::chrono::seconds(ev->time.tv_sec) + std::chrono::microseconds(ev->time.tv_usec);
++    const std::chrono::microseconds time = std::chrono::seconds(ev->input_event_sec) + std::chrono::microseconds(ev->input_event_usec);
+ 
+     switch (ev->code) {
+     // analog triggers
+diff -up kwin-6.6.0.orig/src/plugins/gamecontroller/gamecontroller.cpp kwin-6.6.0/src/plugins/gamecontroller/gamecontroller.cpp
+--- kwin-6.6.0.orig/src/plugins/gamecontroller/gamecontroller.cpp	2026-02-12 11:04:41.000000000 +0100
++++ kwin-6.6.0/src/plugins/gamecontroller/gamecontroller.cpp	2026-02-19 09:52:49.924948056 +0100
+@@ -18,6 +18,16 @@
+ namespace KWin
+ {
+ 
++// The field to look up in struct input_event for integer seconds
++#ifndef input_event_sec
++#define input_event_sec time.tv_sec
++#endif
++
++// The field to look up in struct input_event for fractional seconds
++#ifndef input_event_usec
++#define input_event_usec time.tv_usec
++#endif
++
+ void LibevdevDeleter::operator()(libevdev *dev) const
+ {
+     if (dev) {
+@@ -137,7 +147,7 @@ void GameController::logEvent(input_even
+         return;
+     }
+ 
+-    const qint64 timestamp = ev->time.tv_sec * 1000 + ev->time.tv_usec / 1000;
++    const qint64 timestamp = ev->input_event_sec * 1000 + ev->input_event_usec / 1000;
+ 
+     if (ev->type == EV_SYN) {
+         qCDebug(KWIN_GAMECONTROLLER) << "Device:" << libevdev_get_name(m_evdev.get()) << "time(ms):" << timestamp << "Event: -------------- SYN_REPORT ------------";
