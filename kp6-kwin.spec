@@ -6,7 +6,7 @@
 
 %define		kdeplasmaver	6.6.0
 %define		kf_ver		6.5.0
-%define		kp_ver		6.3.2
+%define		kp_ver		6.6.0
 %define		qt_ver		6.7.0
 %define		kpname		kwin
 #
