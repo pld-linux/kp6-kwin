@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.6.5
+%define		kdeplasmaver	6.7.0
 %define		kf_ver		6.5.0
 %define		kp_ver		6.6.0
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.6.5
+Version:	6.7.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	5c7ed1b1eabed2599ba188085a2fd7dc
+# Source0-md5:	6eed4dbeed39f0094104f0bd4dee9d09
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -95,7 +95,7 @@ BuildRequires:	libxcb-devel >= 1.10
 BuildRequires:	ninja
 BuildRequires:	pipewire-devel >= 0.3.65
 BuildRequires:	pkgconfig
-BuildRequires:	plasma-wayland-protocols >= 1.20.0
+BuildRequires:	plasma-wayland-protocols >= 1.21.0
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	systemd-devel
 BuildRequires:	udev-devel
@@ -252,6 +252,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kwin_wayland
 %attr(755,root,root) %{_bindir}/kwin_wayland_wrapper
 %attr(755,root,root) %{_libexecdir}/kwin-applywindowdecoration
+%attr(755,root,root) %{_prefix}/libexec/kwin_dialog_helper
+%attr(755,root,root) %{_prefix}/libexec/kwin_eis_prompter
 %attr(755,root,root) %{_libexecdir}/kwin_killer_helper
 %{_libdir}/libkcmkwincommon.so.*.*
 %ghost %{_libdir}/libkcmkwincommon.so.6
@@ -363,6 +365,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/kcm_kwintabbox.desktop
 %{_desktopdir}/kcm_kwinxwayland.desktop
 %{_desktopdir}/kcm_virtualkeyboard.desktop
+%{_desktopdir}/org.kde.kwin.dialoghelper.desktop
 %{_desktopdir}/org.kde.kwin.killer.desktop
 %{_iconsdir}/hicolor/*x*/apps/kwin.png
 %{_iconsdir}/hicolor/scalable/apps/kwin.svgz
