@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.7.5
+%define		kdeplasmaver	6.8.0
 %define		kf_ver		6.5.0
 %define		kp_ver		6.6.0
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.7.5
+Version:	6.8.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	3751d13452d60592ede86c97b839b26a
+# Source0-md5:	b0f4d8fc0abe70e55dda43530b8af736
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -248,6 +248,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # TODO: CAP_SYS_NICE=+ep
+/etc/xdg/kwinrulesrc
 %attr(755,root,root) %{_bindir}/kwindowprop
 %attr(755,root,root) %{_bindir}/kwin_wayland
 %attr(755,root,root) %{_bindir}/kwin_wayland_wrapper
@@ -259,7 +260,6 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %{_libdir}/libkcmkwincommon.so.6
 %{_libdir}/libkwin.so.*.*.*
 %ghost %{_libdir}/libkwin.so.6
-%attr(755,root,root) %{_libdir}/kconf_update_bin/kwin5_update_default_rules
 %attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-delete-desktop-switching-shortcuts
 %attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-remove-breeze-tabbox-default
 %attr(755,root,root) %{_libdir}/kconf_update_bin/kwin-6.0-reset-active-mouse-screen
@@ -306,10 +306,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_scripts.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwin_virtualdesktops.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwindecoration.so
+%{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwinoptions.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwinrules.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_kwinxwayland.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings/kcm_virtualkeyboard.so
-%{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwinoptions.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwinscreenedges.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwintabbox.so
 %{_libdir}/qt6/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwintouchscreen.so
@@ -369,7 +369,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/org.kde.kwin.killer.desktop
 %{_iconsdir}/hicolor/*x*/apps/kwin.png
 %{_iconsdir}/hicolor/scalable/apps/kwin.svgz
-%{_datadir}/kwin-wayland
+%{_datadir}/kwin
 
 %files devel
 %defattr(644,root,root,755)
