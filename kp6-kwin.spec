@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeplasmaver	6.8.0
+%define		kdeplasmaver	6.8.2
 %define		kf_ver		6.5.0
 %define		kp_ver		6.6.0
 %define		qt_ver		6.7.0
@@ -13,12 +13,12 @@
 Summary:	KDE Window manager
 Summary(pl.UTF-8):	Zarządca okien KDE
 Name:		kp6-%{kpname}
-Version:	6.8.0
-Release:	2
+Version:	6.8.2
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	b0f4d8fc0abe70e55dda43530b8af736
+# Source0-md5:	01aa2afd70a16a9ae0605540b794a3fc
 URL:		https://kde.org/
 BuildRequires:	EGL-devel
 BuildRequires:	Mesa-libgbm-devel >= 21.3
@@ -248,7 +248,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # TODO: CAP_SYS_NICE=+ep
-/etc/xdg/kwinrulesrc
 %attr(755,root,root) %{_bindir}/kwindowprop
 %attr(755,root,root) %{_bindir}/kwin_wayland
 %attr(755,root,root) %{_bindir}/kwin_wayland_wrapper
